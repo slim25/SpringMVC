@@ -7,6 +7,7 @@ import mentorship.program.model.User;
 import mentorship.program.model.persistance.Level;
 import mentorship.program.service.MentorshipProgrammService;
 import mentorship.program.service.UserService;
+import mentorship.program.utils.MultipleDateFormat;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -40,9 +42,8 @@ public class MVCController {
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        dateFormat.setLenient(true);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new MultipleDateFormat(), true));
+
     }
 
     @RequestMapping(value = "/createUser", method = RequestMethod.POST)
@@ -86,14 +87,15 @@ public class MVCController {
 
 
     @RequestMapping(value = "/createMentorshipProgram", method = RequestMethod.POST)
-    public String createMentorshipProgram(@ModelAttribute("mentorshipProgram") @Valid MentorshipProgramm mentorshipProgram, ModelMap model){
+    public String createMentorshipProgram(@ModelAttribute("mentorshipProgram") @Valid MentorshipProgramm mentorshipProgram, HttpServletRequest request, ModelMap model){
         mentorshipProgramService.addMentorshipProgramm(mentorshipProgram);
+//       throwException(null);
         return "redirect:/index";
     }
 
     @RequestMapping(value = "/editMentorshipProgram", method = RequestMethod.POST)
-    public String editMentorshipProgram(@ModelAttribute("mentorshipProgram") @Valid MentorshipProgramm mentorshipProgram, ModelMap model){
-        return createMentorshipProgram(mentorshipProgram,model);
+    public String editMentorshipProgram(@ModelAttribute("mentorshipProgram") @Valid MentorshipProgramm mentorshipProgram, HttpServletRequest request, ModelMap model){
+        return createMentorshipProgram(mentorshipProgram, request, model);
     }
     @RequestMapping(value = "/editMentorshipPage", method = RequestMethod.POST)
     public ModelAndView editMentorshipProgramm(@ModelAttribute("id") Long id){
@@ -126,6 +128,12 @@ public class MVCController {
     public String deleteMentorshipProgramm(@ModelAttribute("id") Long id){
         mentorshipProgramService.removeMentorshipProgramm(id);
         return "redirect:/index";
+    }
+
+    @RequestMapping(value = "/throwException", method = RequestMethod.GET)
+    public String throwException( ModelMap model) {
+        if(true) throw new RuntimeException();
+        return null;
     }
 
 }

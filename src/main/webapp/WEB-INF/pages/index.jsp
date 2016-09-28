@@ -18,13 +18,18 @@
   <body >
 <div class="container">
     <div class="row">
-        <form action="searchPage" method="POST">
-            <tr>
-                <td colspan="2"><input type="text"  name="criteria" /></td>
-                <td colspan="2"><input type="submit" value="Search" /></td>
-            </tr>
-            </table>
-        </form>
+         <div class="col-md-8">
+            <form action="searchPage" method="POST">
+                <tr>
+                    <td colspan="2"><input type="text"  name="criteria" /></td>
+                    <td colspan="2"><input type="submit" value="Search" /></td>
+                </tr>
+                </table>
+            </form>
+        </div>
+         <div class="col-md-4">
+            <a href="throwException" > Throw exception </a>
+         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -169,16 +174,36 @@
 
                                 <div>
                                     <div>
-                                        <p>Name: ${mentorshipProgram.name}</p>
+                                        <p>Name : ${mentorshipProgram.name}</p>
                                     </div>
                                      <c:forEach items="${mentorshipProgram.participants}" var="participant">
                                         <div>
-                                            <p>Name: ${participant.name}</p>
+                                            <p>Name : ${participant.name}</p>
                                         </div>
                                         <div>
-                                            <p>Last Name: ${participant.lastName}</p>
+                                            <p>Last Name : ${participant.lastName}</p>
                                         </div>
                                      </c:forEach>
+                                     <c:if test="${mentorshipProgram.dateCreated != null}">
+                                        <div>
+                                            <p>Date of creation : ${mentorshipProgram.dateCreated}</p>
+                                        </div>
+                                     </c:if>
+                                     <c:if test="${mentorshipProgram.createdByUser != null}">
+                                         <div>
+                                             <p>Created by user : ${mentorshipProgram.createdByUser}</p>
+                                         </div>
+                                       </c:if>
+                                      <c:if test="${mentorshipProgram.dateLastModified != null}">
+                                        <div>
+                                            <p>Date of last modifying : ${mentorshipProgram.dateLastModified}</p>
+                                        </div>
+                                      </c:if>
+                                      <c:if test="${mentorshipProgram.lastModifiedByUser != null}">
+                                          <div>
+                                              <p>Last modified by : ${mentorshipProgram.lastModifiedByUser}</p>
+                                          </div>
+                                        </c:if>
 
                                 </div>
                                 <form action="deleteMentorshipProgram" method="POST">

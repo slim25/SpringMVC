@@ -42,6 +42,7 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Skill primarySkill;
 
+
     @Override
     public String toString() {
         return "User{" +
@@ -55,31 +56,4 @@ public class User extends BaseEntity {
                 '}';
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public MentorshipProgramm getMentorshipProgram() {
-        return mentorshipProgram;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public Skill getPrimarySkill() {
-        return primarySkill;
-    }
 }

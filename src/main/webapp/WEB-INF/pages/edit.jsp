@@ -98,6 +98,10 @@
                             				<td><b>Name</b></td>
                             				<td><input type="text" name="name" value="${mentorshipProgram.name}"/></td>
                             			</tr>
+                                        <input style="display:none;" type="hidden" name="dateCreated" value="${mentorshipProgram.dateCreated}"/>
+                                        <input style="display:none;" type="hidden" name="createdByUser" value="${mentorshipProgram.createdByUser}"/>
+                                        <input  style="display:none;" type="hidden" name="dateLastModified" value="${mentorshipProgram.dateLastModified}"/>
+                                        <input type="hidden" name="lastModifiedByUser" value="${mentorshipProgram.lastModifiedByUser}"/>
 
                             			<tr>
                             				<td colspan="2"><input type="submit" value="Edit Mentorship Program" /></td>
