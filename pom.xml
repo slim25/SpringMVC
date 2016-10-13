@@ -54,6 +54,13 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>gov.nih.nlm.nls.lvg</groupId>
+            <artifactId>lvg2010dist</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>spring.mvc</finalName>

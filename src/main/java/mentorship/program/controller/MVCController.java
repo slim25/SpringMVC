@@ -1,7 +1,7 @@
 package mentorship.program.controller;
 
 
-import mentorship.program.model.MentorshipProgramm;
+import mentorship.program.model.MentorshipProgram;
 import mentorship.program.model.SearchCriteria;
 import mentorship.program.model.User;
 import mentorship.program.model.persistance.Level;
@@ -59,7 +59,7 @@ public class MVCController {
     public ModelAndView editUser(@ModelAttribute("id") Long id){
         User user = userService.getUser(id);
         ModelAndView mav = new ModelAndView();
-        List<MentorshipProgramm> mentorshipPrograms =  mentorshipProgramService.findAll();
+        List<MentorshipProgram> mentorshipPrograms =  mentorshipProgramService.findAll();
         mav.addObject("mentorshipPrograms", mentorshipPrograms);
         mav.addObject("user", user);
         mav.setViewName("edit");
@@ -77,7 +77,7 @@ public class MVCController {
     public ModelAndView index(){
         ModelAndView mav = new ModelAndView();
         List<User> users = userService.findAll();
-        List<MentorshipProgramm> mentorshipPrograms =  mentorshipProgramService.findAll();
+        List<MentorshipProgram> mentorshipPrograms =  mentorshipProgramService.findAll();
         users.stream().forEach(System.out::println);
         mav.addObject("users", users);
         mav.addObject("mentorshipPrograms", mentorshipPrograms);
@@ -86,18 +86,18 @@ public class MVCController {
 
 
     @RequestMapping(value = "/createMentorshipProgram", method = RequestMethod.POST)
-    public String createMentorshipProgram(@ModelAttribute("mentorshipProgram") @Valid MentorshipProgramm mentorshipProgram, ModelMap model){
+    public String createMentorshipProgram(@ModelAttribute("mentorshipProgram") @Valid MentorshipProgram mentorshipProgram, ModelMap model){
         mentorshipProgramService.addMentorshipProgramm(mentorshipProgram);
         return "redirect:/index";
     }
 
     @RequestMapping(value = "/editMentorshipProgram", method = RequestMethod.POST)
-    public String editMentorshipProgram(@ModelAttribute("mentorshipProgram") @Valid MentorshipProgramm mentorshipProgram, ModelMap model){
+    public String editMentorshipProgram(@ModelAttribute("mentorshipProgram") @Valid MentorshipProgram mentorshipProgram, ModelMap model){
         return createMentorshipProgram(mentorshipProgram,model);
     }
     @RequestMapping(value = "/editMentorshipPage", method = RequestMethod.POST)
     public ModelAndView editMentorshipProgramm(@ModelAttribute("id") Long id){
-        MentorshipProgramm mentorshipProgram = mentorshipProgramService.getMentorshipProgramm(id);
+        MentorshipProgram mentorshipProgram = mentorshipProgramService.getMentorshipProgramm(id);
         ModelAndView mav = new ModelAndView();
         mav.addObject("mentorshipProgram", mentorshipProgram);
         mav.setViewName("edit");
@@ -109,7 +109,7 @@ public class MVCController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("search");
         List<User> matchedUsers = new ArrayList<>();
-        List<MentorshipProgramm> matchedMentorshipProgramms = new ArrayList<>();
+        List<MentorshipProgram> matchedMentorshipProgramms = new ArrayList<>();
         if(Stream.of(Level.values()).anyMatch(level -> level.name().toString().equalsIgnoreCase(criteria.getCriteria()))) {
             matchedUsers.addAll(userService.findByLevel(Level.valueOf(criteria.getCriteria())));
         }

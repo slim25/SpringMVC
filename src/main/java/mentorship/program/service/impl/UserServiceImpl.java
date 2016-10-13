@@ -1,6 +1,9 @@
 package mentorship.program.service.impl;
 
+import mentorship.program.dao.impl.UserDaoImpl;
 import mentorship.program.model.User;
+import mentorship.program.model.UserMentee;
+import mentorship.program.model.UserMentor;
 import mentorship.program.model.persistance.Level;
 import mentorship.program.repository.UserRepository;
 import mentorship.program.service.UserService;
@@ -15,40 +18,55 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService{
 
+//    @Autowired
+//    private UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    private UserDaoImpl userDao;
 
     @Override
     public List<User> findAll() {
-       return userRepository.findAll();
+       return userDao.getAll();
     }
 
     public User getUser(Long id) {
-        return userRepository.findOne(id);
+        return userDao.getById(id);
     }
 
     public List<User> getUser(String name) {
-        return userRepository.findByName(name);
+        return userDao.getByName(name);
     }
 
     public void editUser(User user) {
-        userRepository.save(user);
+        userDao.update(user);
     }
 
     public void addUser(User user) {
-        userRepository.save(user);
+        userDao.create(user);
     }
 
     public void removeUser(Long userId) {
-        userRepository.delete(userId);
+        userDao.deleteById(userId);
     }
 
 
     public List<User> findByName(String name) {
-        return userRepository.findByName(name);
+        return userDao.getByName(name);
     }
 
     public List<User> findByLevel(Level level) {
-        return userRepository.findByLevel(level);
+        return userDao.getByLevel(level);
+    }
+
+    public List<UserMentor> getMentorsManagingMoreThanTwoMentees(){
+        return userDao.getMentorsManagingMoreThanTwoMentees();
+    }
+
+    public List<UserMentee> getMenteesWithoutMentorsInLocation(String city){
+        return userDao.getMenteesWithoutMentorsInLocation(city);
+    }
+
+    public List<Object[]> getMenteesWithMentorshipDurationDESCOrdered(int pageIndex, int noOfRecords) {
+        return userDao.getMenteesWithMentorshipDurationDESCOrdered(pageIndex,noOfRecords);
     }
 }

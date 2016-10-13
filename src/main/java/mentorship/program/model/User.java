@@ -19,7 +19,7 @@ import java.util.Date;
 @Entity
 @Table(name= "user")
 @Data
-public class User extends BaseEntity {
+public abstract class User extends BaseEntity {
 
     @NotBlank
     @Size(min = 1, max = 10)
@@ -33,14 +33,18 @@ public class User extends BaseEntity {
     private String email;
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date birthday;
-    @OneToOne(fetch = FetchType.EAGER ,cascade=CascadeType.ALL)
-    private MentorshipProgramm mentorshipProgram;
+    @ManyToOne( fetch = FetchType.LAZY ,cascade=CascadeType.ALL)
+    @JoinTable(name = "group_attending_users", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "group_id") })
+    private MentorshipGroup mentorshipGroup;
     @NotNull
     @Enumerated(EnumType.STRING)
     private Level level;
     @NotNull
     @Enumerated(EnumType.STRING)
     private Skill primarySkill;
+
+    @NotNull
+    private boolean isMentor;
 
     @Override
     public String toString() {
@@ -49,37 +53,10 @@ public class User extends BaseEntity {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", birthday=" + birthday +
-                ", mentorshipProgram=" + mentorshipProgram +
+                ", mentorshipGroup=" + mentorshipGroup +
                 ", level=" + level +
                 ", primarySkill=" + primarySkill +
+                ", isMentor=" + isMentor +
                 '}';
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public MentorshipProgramm getMentorshipProgram() {
-        return mentorshipProgram;
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public Skill getPrimarySkill() {
-        return primarySkill;
     }
 }

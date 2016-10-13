@@ -1,8 +1,10 @@
 package mentorship.program.service;
 
-import mentorship.program.model.MentorshipProgramm;
+import mentorship.program.model.MentorshipProgram;
 import mentorship.program.model.User;
+import mentorship.program.model.persistance.CityStatistic;
 import mentorship.program.model.persistance.Level;
+import mentorship.program.model.persistance.UserSuccessCompletions;
 
 import java.util.List;
 
@@ -11,18 +13,21 @@ import java.util.List;
  */
 public interface MentorshipProgrammService {
 
-    public MentorshipProgramm getMentorshipProgramm(Long id);
+    public MentorshipProgram getMentorshipProgramm(Long id);
 
-    public List<MentorshipProgramm> getMentorshipProgramm(String name);
+    public List<MentorshipProgram> getMentorshipProgramm(String name);
 
-    public void addMentorshipProgramm(MentorshipProgramm mentorshipProgramm);
+    public void addMentorshipProgramm(MentorshipProgram mentorshipProgramm);
 
     public void removeMentorshipProgramm(Long id);
 
-    public void editMentorshipProgramm(MentorshipProgramm mentorshipProgramm);
+    public void editMentorshipProgramm(MentorshipProgram mentorshipProgramm);
 
-    public List<MentorshipProgramm> findByName(String name);
+    public List<MentorshipProgram> findByName(String name);
 
-    public List<MentorshipProgramm> findAll();
+    public List<MentorshipProgram> findAll();
 
+    public List<CityStatistic> getStatistics();
+
+    public List<UserSuccessCompletions> getStatisticOfSuccessCompletions();
 }

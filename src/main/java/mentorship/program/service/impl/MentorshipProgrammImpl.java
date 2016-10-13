@@ -1,12 +1,16 @@
 package mentorship.program.service.impl;
 
+import mentorship.program.dao.impl.MentorshipProgramDaoImpl;
+import mentorship.program.dao.impl.UserDaoImpl;
+import mentorship.program.model.MentorshipProgram;
 import mentorship.program.model.User;
+import mentorship.program.model.persistance.CityStatistic;
+import mentorship.program.model.persistance.UserSuccessCompletions;
 import mentorship.program.repository.MentorshipProgramRepository;
 import mentorship.program.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import mentorship.program.model.MentorshipProgramm;
 import mentorship.program.model.persistance.Level;
 import mentorship.program.service.MentorshipProgrammService;
 
@@ -18,35 +22,47 @@ import java.util.List;
 @Service
 public class MentorshipProgrammImpl implements MentorshipProgrammService{
 
+//    @Autowired
+//    private MentorshipProgramRepository mentorshipProgramRepository;
+
     @Autowired
-    private MentorshipProgramRepository mentorshipProgramRepository;
+    private MentorshipProgramDaoImpl mentorshipProgramDao;
 
-    public MentorshipProgramm getMentorshipProgramm(Long id) {
-        return mentorshipProgramRepository.findOne(id);
+    public MentorshipProgram getMentorshipProgramm(Long id) {
+        return mentorshipProgramDao.getById(id);
     }
 
-    public List<MentorshipProgramm> getMentorshipProgramm(String name) {
-        return mentorshipProgramRepository.findByName(name);
+    public List<MentorshipProgram> getMentorshipProgramm(String name) {
+        return mentorshipProgramDao.getByName(name);
     }
 
-    public void addMentorshipProgramm(MentorshipProgramm mentorshipProgramm) {
-        mentorshipProgramRepository.save(mentorshipProgramm);
+    public void addMentorshipProgramm(MentorshipProgram mentorshipProgramm) {
+        mentorshipProgramDao.create(mentorshipProgramm);
     }
 
     public void removeMentorshipProgramm(Long id) {
-        mentorshipProgramRepository.delete(id);
+        mentorshipProgramDao.deleteById(id);
     }
 
-    public void editMentorshipProgramm(MentorshipProgramm mentorshipProgramm) {
-        mentorshipProgramRepository.save(mentorshipProgramm);
+    public void editMentorshipProgramm(MentorshipProgram mentorshipProgramm) {
+        mentorshipProgramDao.update(mentorshipProgramm);
     }
 
-    public List<MentorshipProgramm> findByName(String name) {
-        return mentorshipProgramRepository.findByName(name);
+    public List<MentorshipProgram> findByName(String name) {
+        return mentorshipProgramDao.getByName(name);
     }
 
     @Override
-    public List<MentorshipProgramm> findAll() {
-        return mentorshipProgramRepository.findAll();
+    public List<MentorshipProgram> findAll() {
+        return mentorshipProgramDao.getAll();
+    }
+
+    @Override
+    public List<CityStatistic> getStatistics() {
+        return mentorshipProgramDao.getCitiesStatistic();
+    }
+
+    public List<UserSuccessCompletions> getStatisticOfSuccessCompletions() {
+        return mentorshipProgramDao.getStatisticOfSuccessCompletions();
     }
 }

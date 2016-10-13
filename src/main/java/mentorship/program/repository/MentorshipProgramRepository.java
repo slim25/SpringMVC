@@ -1,6 +1,6 @@
 package mentorship.program.repository;
 
-import mentorship.program.model.MentorshipProgramm;
+import mentorship.program.model.MentorshipProgram;
 import mentorship.program.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,8 +14,8 @@ import java.util.List;
  */
 @Repository
 @Transactional
-public interface MentorshipProgramRepository extends JpaRepository<MentorshipProgramm, Long> {
+public interface MentorshipProgramRepository extends JpaRepository<MentorshipProgram, Long> {
 
-    public List<MentorshipProgramm> findByName(String name);
+    public List<MentorshipProgram> findByName(String name);
 
 }
