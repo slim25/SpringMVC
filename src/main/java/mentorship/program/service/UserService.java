@@ -33,4 +33,7 @@ public interface UserService {
 
     public List<Object[]> getMenteesWithMentorshipDurationDESCOrdered(int pageIndex, int noOfRecords);
 
+    public List<UserMentor> getAllMentors();
+
+    public List<UserMentee> getAllMentees();
 }

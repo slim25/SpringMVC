@@ -34,4 +34,7 @@ public interface UserDao {
 
     public List<Object[]> getMenteesWithMentorshipDurationDESCOrdered(int minIndex, int maxIndex);
 
+    public List<UserMentor> getAllMentors();
+
+    public List<UserMentee> getAllMentees();
 }

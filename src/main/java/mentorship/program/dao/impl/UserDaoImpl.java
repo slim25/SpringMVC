@@ -38,9 +38,10 @@ public class UserDaoImpl implements UserDao{
     }
 
     public void deleteById(Long userId){
-        entityManager.createNativeQuery("DELETE FROM User WHERE ID = :userId")
-                .setParameter("userId", userId)
-                .executeUpdate();
+     entityManager.remove(getById(userId));
+//        entityManager.createQuery("DELETE FROM user u WHERE u.id = :userId")
+//            .setParameter("userId", userId)
+//            .executeUpdate();
     }
 
     @SuppressWarnings("unchecked")
@@ -90,7 +91,7 @@ public class UserDaoImpl implements UserDao{
     public List<UserMentee> getMenteesWithoutMentorsInLocation(String city){
         List<UserMentee> mentee = entityManager
                 .createQuery("SELECT u FROM UserMentee u INNER JOIN u.mentorshipGroup mg " +
-                        "WHERE mg.mentorshipProgram.city=:city AND u.mentor IS NULL )" ,
+                        "WHERE mg.mentorshipProgram.city=:city AND u.userMentor IS NULL )" ,
                 UserMentee.class).setParameter("city", city)
                 .getResultList();
 
@@ -100,7 +101,7 @@ public class UserDaoImpl implements UserDao{
     public List<Object[]> getMenteesWithMentorshipDurationDESCOrdered(int pageIndex, int noOfRecords){
         List<Object[]> mentee = entityManager
                 .createQuery("SELECT u, SUM( mGr.mentorshipProgram.mentorWeek) FROM UserMentee u " +
-                        "INNER JOIN u.mentorshipGroup mGr GROUP BY u.id, u.mentorshipGroup, u.name, u.birthday, u.lastName, u.email, u.isMentor, u.primarySkill, u.level ORDER BY u.name DESC)" , Object[].class)
+                        "INNER JOIN u.mentorshipGroup mGr GROUP BY u.id, u.userMentor, u.mentorshipGroup, u.name, u.birthday, u.lastName, u.email, u.isMentor, u.primarySkill, u.level ORDER BY u.name DESC)" , Object[].class)
                         .setMaxResults(noOfRecords)
                         .setFirstResult((pageIndex - 1)* noOfRecords)
                 .getResultList();
@@ -108,13 +109,25 @@ public class UserDaoImpl implements UserDao{
         return mentee;
     }
 
-
-
     public List<UserMentee> getMenteesWhoCompletedAllMentorshipPrograms(){
         List<UserMentee> mentors = entityManager
                 .createQuery("SELECT u FROM UserMentee u WHERE u.id IN (SELECT med.user_mentee_id FROM mentorship_end_date med WHERE med.end_date IN (SELECT mp.date_of_end FROM mentorship_program mp)))" , UserMentee.class)
                 .getResultList();
         return mentors;
+    }
+
+    public List<UserMentor> getAllMentors(){
+        List<UserMentor> mentors = entityManager
+                .createQuery("SELECT u FROM UserMentor u WHERE u.isMentor=true" , UserMentor.class)
+                .getResultList();
+        return mentors;
+    }
+
+    public List<UserMentee> getAllMentees(){
+        List<UserMentee> mentees = entityManager
+                .createQuery("SELECT u FROM UserMentee u WHERE u.isMentor=false" , UserMentee.class)
+                .getResultList();
+        return mentees;
     }
 
 

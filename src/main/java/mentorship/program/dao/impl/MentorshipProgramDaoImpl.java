@@ -1,10 +1,7 @@
 package mentorship.program.dao.impl;
 
 import mentorship.program.dao.MentorshipProgramDao;
-import mentorship.program.model.MentorshipProgram;
-import mentorship.program.model.User;
-import mentorship.program.model.UserMentee;
-import mentorship.program.model.UserMentor;
+import mentorship.program.model.*;
 import mentorship.program.model.persistance.CityStatistic;
 import mentorship.program.model.persistance.Level;
 import mentorship.program.model.persistance.UserSuccessCompletions;
@@ -43,7 +40,7 @@ public class MentorshipProgramDaoImpl implements MentorshipProgramDao{
     }
 
     public void deleteById(Long mentorshipProgramId){
-        entityManager.createNativeQuery("DELETE FROM MentorshipProgram WHERE ID = :mentorshipProgramId")
+        entityManager.createNativeQuery("DELETE FROM mentorship_program mp WHERE mp.id = :mentorshipProgramId")
                 .setParameter("mentorshipProgramId", mentorshipProgramId)
                 .executeUpdate();
     }
@@ -89,5 +86,11 @@ public class MentorshipProgramDaoImpl implements MentorshipProgramDao{
 
 
         return successStatistics;
+    }
+
+    public List<MentorshipGroup> getAllMentorshipGroup(){
+        List<MentorshipGroup> mentorshipGroups = entityManager.createQuery("FROM  MentorshipGroup ",MentorshipGroup.class).getResultList();
+
+        return mentorshipGroups;
     }
 }

@@ -1,8 +1,13 @@
 package mentorship.program.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import mentorship.program.model.persistance.Level;
 import mentorship.program.model.persistance.Skill;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -33,7 +38,8 @@ public abstract class User extends BaseEntity {
     private String email;
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date birthday;
-    @ManyToOne( fetch = FetchType.LAZY ,cascade=CascadeType.ALL)
+    @ManyToOne( fetch = FetchType.EAGER ,cascade={CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.DETACH})
+    @JsonManagedReference
     @JoinTable(name = "group_attending_users", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "group_id") })
     private MentorshipGroup mentorshipGroup;
     @NotNull

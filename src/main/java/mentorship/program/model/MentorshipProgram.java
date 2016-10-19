@@ -1,11 +1,16 @@
 package mentorship.program.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -19,7 +24,7 @@ import java.util.*;
 @Entity
 @Table(name= "mentorship_program")
 @Data
-public class MentorshipProgram extends BaseEntity{
+public class MentorshipProgram extends BaseEntity implements Serializable{
 
     @NotBlank
     @Size(min = 1, max = 20)
@@ -37,7 +42,8 @@ public class MentorshipProgram extends BaseEntity{
 
     private Long mentorWeek;
 
-    @OneToMany(mappedBy = "mentorshipProgram", cascade = CascadeType.ALL)
+    @OneToMany( mappedBy = "mentorshipProgram",cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JsonBackReference
 //    @JoinTable(name = "mentorship_program_and_groups", joinColumns = { @JoinColumn(name = "mentorship_program_id") }, inverseJoinColumns = { @JoinColumn(name = "group_id") })
     private List<MentorshipGroup> programGroups;
 

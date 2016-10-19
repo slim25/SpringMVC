@@ -1,13 +1,13 @@
-package mentorship.program.dao;
+package mentorship.program.service;
 
 import mentorship.program.model.MentorshipGroup;
 
 import java.util.List;
 
 /**
- * Created by Oleksandr_Tertyshnyi on 10/3/2016.
+ * Created by Oleksandr_Tertyshnyi on 10/18/2016.
  */
-public interface MentorshipGroupDao {
+public interface MentorshipGroupService {
 
     public void create(MentorshipGroup mentorshipGroup);
 
@@ -22,6 +22,5 @@ public interface MentorshipGroupDao {
     public MentorshipGroup getById(long id);
 
     public void update(MentorshipGroup mentorshipGroup);
-
 
 }

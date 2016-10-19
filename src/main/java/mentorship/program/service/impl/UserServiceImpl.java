@@ -69,4 +69,12 @@ public class UserServiceImpl implements UserService{
     public List<Object[]> getMenteesWithMentorshipDurationDESCOrdered(int pageIndex, int noOfRecords) {
         return userDao.getMenteesWithMentorshipDurationDESCOrdered(pageIndex,noOfRecords);
     }
+
+    public List<UserMentor> getAllMentors() {
+        return userDao.getAllMentors();
+    }
+
+    public List<UserMentee> getAllMentees() {
+        return userDao.getAllMentees();
+    }
 }

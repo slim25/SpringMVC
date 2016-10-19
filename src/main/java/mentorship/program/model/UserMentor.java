@@ -1,10 +1,15 @@
 package mentorship.program.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import mentorship.program.model.persistance.Level;
 import mentorship.program.model.persistance.Skill;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,13 +20,15 @@ import java.util.Map;
  */
 @Entity
 @DiscriminatorValue(value = "UserMentor")
+@AllArgsConstructor
 @Data
-public class UserMentor extends User{
+public class UserMentor extends User implements Serializable{
 
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(uniqueConstraints = {
-            @UniqueConstraint(columnNames = { "mentor_id", "mentee_id" })},name = "mentor_mentees", joinColumns = { @JoinColumn(name = "mentor_id") }, inverseJoinColumns = { @JoinColumn(name = "mentee_id") })
+    @OneToMany(mappedBy = "userMentor", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,CascadeType.REFRESH,CascadeType.PERSIST,CascadeType.DETACH})
+    @JsonManagedReference
+//    @JoinTable(uniqueConstraints = {
+//            @UniqueConstraint(columnNames = { "mentor_id", "mentee_id" })},name = "mentor_mentees", joinColumns = { @JoinColumn(name = "mentor_id") }, inverseJoinColumns = { @JoinColumn(name = "mentee_id") })
     private List<UserMentee> mentees = new ArrayList<>();
 
     public UserMentor(){}
@@ -32,6 +39,7 @@ public class UserMentor extends User{
         this.setEmail(email);
         this.setLevel(level);
         this.setPrimarySkill(primarySkill);
+        this.setMentor(true);
     }
 
 

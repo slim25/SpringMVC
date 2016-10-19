@@ -2,6 +2,7 @@ package mentorship.program.service.impl;
 
 import mentorship.program.dao.impl.MentorshipProgramDaoImpl;
 import mentorship.program.dao.impl.UserDaoImpl;
+import mentorship.program.model.MentorshipGroup;
 import mentorship.program.model.MentorshipProgram;
 import mentorship.program.model.User;
 import mentorship.program.model.persistance.CityStatistic;
@@ -20,7 +21,7 @@ import java.util.List;
  * Created by Oleksandr_Tertyshnyi on 9/23/2016.
  */
 @Service
-public class MentorshipProgrammImpl implements MentorshipProgrammService{
+public class MentorshipProgrammServiceImpl implements MentorshipProgrammService{
 
 //    @Autowired
 //    private MentorshipProgramRepository mentorshipProgramRepository;
@@ -30,6 +31,10 @@ public class MentorshipProgrammImpl implements MentorshipProgrammService{
 
     public MentorshipProgram getMentorshipProgramm(Long id) {
         return mentorshipProgramDao.getById(id);
+    }
+
+    public List<MentorshipGroup> getAllMentorshipGroup() {
+        return mentorshipProgramDao.getAllMentorshipGroup();
     }
 
     public List<MentorshipProgram> getMentorshipProgramm(String name) {
@@ -65,4 +70,5 @@ public class MentorshipProgrammImpl implements MentorshipProgrammService{
     public List<UserSuccessCompletions> getStatisticOfSuccessCompletions() {
         return mentorshipProgramDao.getStatisticOfSuccessCompletions();
     }
+
 }

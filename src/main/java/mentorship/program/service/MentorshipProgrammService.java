@@ -1,5 +1,6 @@
 package mentorship.program.service;
 
+import mentorship.program.model.MentorshipGroup;
 import mentorship.program.model.MentorshipProgram;
 import mentorship.program.model.User;
 import mentorship.program.model.persistance.CityStatistic;
@@ -30,4 +31,6 @@ public interface MentorshipProgrammService {
     public List<CityStatistic> getStatistics();
 
     public List<UserSuccessCompletions> getStatisticOfSuccessCompletions();
+
+    public List<MentorshipGroup> getAllMentorshipGroup();
 }

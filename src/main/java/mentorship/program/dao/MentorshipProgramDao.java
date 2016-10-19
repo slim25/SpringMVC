@@ -1,5 +1,6 @@
 package mentorship.program.dao;
 
+import mentorship.program.model.MentorshipGroup;
 import mentorship.program.model.MentorshipProgram;
 import mentorship.program.model.User;
 import mentorship.program.model.UserMentor;
@@ -19,5 +20,7 @@ public interface MentorshipProgramDao {
     public List<CityStatistic> getCitiesStatistic();
 
     public List<UserSuccessCompletions> getStatisticOfSuccessCompletions();
+
+    public List<MentorshipGroup> getAllMentorshipGroup();
 
 }
