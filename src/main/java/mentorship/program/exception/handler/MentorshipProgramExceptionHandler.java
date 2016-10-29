@@ -14,7 +14,7 @@ public class MentorshipProgramExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ModelAndView toResponse(Exception exception) {
-        exception.printStackTrace();
+//        exception.printStackTrace();
         ModelAndView view = new ModelAndView();
         view.clear();
         view.setViewName("404");

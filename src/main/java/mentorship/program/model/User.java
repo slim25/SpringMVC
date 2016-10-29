@@ -48,7 +48,10 @@ public abstract class User extends BaseEntity {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Skill primarySkill;
-
+    @NotNull
+    private String role = "USER";
+    @NotNull
+    private String password;
     @NotNull
     private boolean isMentor;
 
@@ -62,6 +65,8 @@ public abstract class User extends BaseEntity {
                 ", mentorshipGroup=" + mentorshipGroup +
                 ", level=" + level +
                 ", primarySkill=" + primarySkill +
+                ", role='" + role + '\'' +
+                ", password='" + password + '\'' +
                 ", isMentor=" + isMentor +
                 '}';
     }

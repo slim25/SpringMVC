@@ -36,7 +36,7 @@ public class UserMentee extends User implements Serializable{
 
     public UserMentee(){}
 
-    public UserMentee(String name, String lastName, String email, Level level, Skill primarySkill, UserMentor mentor, Map<String, Date> mentorshipEndDate) {
+    public UserMentee(String name, String lastName, String email, Level level, Skill primarySkill, UserMentor mentor, Map<String, Date> mentorshipEndDate, String password) {
         this.setName(name);
         this.setLastName(lastName);
         this.setEmail(email);
@@ -44,6 +44,7 @@ public class UserMentee extends User implements Serializable{
         this.setPrimarySkill(primarySkill);
         this.userMentor = mentor;
         this.mentorshipEndDate = mentorshipEndDate;
+        this.setPassword(password);
     }
 
 }

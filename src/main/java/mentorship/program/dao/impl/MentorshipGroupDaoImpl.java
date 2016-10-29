@@ -12,9 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
-/**
- * Created by Oleksandr_Tertyshnyi on 10/3/2016.
- */
+
 @Repository
 @Transactional
 public class MentorshipGroupDaoImpl {

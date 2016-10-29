@@ -5,12 +5,16 @@ import mentorship.program.model.*;
 import mentorship.program.model.persistance.CityStatistic;
 import mentorship.program.model.persistance.Level;
 import mentorship.program.model.persistance.UserSuccessCompletions;
+import mentorship.program.service.JMManagementService;
 import mentorship.program.service.MentorshipGroupService;
 import mentorship.program.service.MentorshipProgrammService;
 import mentorship.program.service.UserService;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
@@ -19,9 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -42,6 +48,9 @@ public class MVCController {
 
     @Autowired
     private MentorshipGroupService mentorshipGroupService;
+
+    @Autowired
+    private JMManagementService jmManagementService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -137,6 +146,14 @@ public class MVCController {
         return mav;
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public ModelAndView login(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("login");
+
+        return mav;
+    }
+
     @RequestMapping(value = "/createMentorshipGroup", method = RequestMethod.POST)
     public String createMentorshipGroup(@ModelAttribute("mentorshipGroup") @Valid MentorshipGroup mentorshipGroup, ModelMap model, HttpServletRequest request){
         String choosedMentorshipProgramId = request.getParameter("choosedMentorshipProgramId");
@@ -219,6 +236,35 @@ public class MVCController {
     @ResponseBody
     public List<UserMentor> getMentorsWhoMentorsMoreThanTwoMentee(){
         return userService.getMentorsManagingMoreThanTwoMentees();
+    }
+
+    @RequestMapping(value="/logout", method = RequestMethod.POST)
+    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/login?logout";
+    }
+
+    @RequestMapping(value="/loginAction", method = RequestMethod.POST)
+    public String loginAction (HttpServletRequest request, HttpServletResponse response) {
+
+        return "redirect:/index";
+    }
+
+    @RequestMapping(value="/excelstatistic", method=RequestMethod.GET)
+    public ModelAndView getStatisticOfSpentTime(HttpServletRequest request, HttpServletResponse response) throws SQLException{
+        Map<String, Object> model = new HashMap<String, Object>();
+        //Sheet Name
+        model.put("sheetname", "Statistic of logged-in time");
+
+        List<LogginInfo> logInfos = jmManagementService.getAllLogInInfos();
+
+        model.put("logInfos",logInfos);
+        response.setContentType( "application/ms-excel" );
+        response.setHeader( "Content-disposition", "attachment; filename=excelstatistic.xls" );
+        return new ModelAndView(new StatisticExcelView(), model);
     }
 
 }

@@ -15,7 +15,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.sql.DataSource;
 import javax.validation.Valid;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Stream;
@@ -129,14 +131,14 @@ public class RestController {
         Date dateOfNotEndedProgram = new GregorianCalendar(2016, Calendar.DECEMBER, 11).getTime();
         endOfMentorshipProgram.put("program3", dateOfNotEndedProgram);
 
-        UserMentor mentor = new UserMentor("mentor1","mentor1LastName","mentor1@Email",Level.L3,Skill.JavaScript);
+        UserMentor mentor = new UserMentor("mentor1","mentor1LastName","mentor1@Email",Level.L3,Skill.JavaScript,"123");
 
-        UserMentee mentee1 = new UserMentee("mentee1","mentee1LastName","email@1",Level.L1, Skill.Java, mentor, endOfMentorshipProgram);
-        UserMentee mentee2 = new UserMentee("mentee2","mentee2LastName","email@3",Level.L1, Skill.Java, mentor, endOfMentorshipProgram);
+        UserMentee mentee1 = new UserMentee("mentee1","mentee1LastName","email@1",Level.L1, Skill.Java, mentor, endOfMentorshipProgram,"123");
+        UserMentee mentee2 = new UserMentee("mentee2","mentee2LastName","email@3",Level.L1, Skill.Java, mentor, endOfMentorshipProgram,"123");
         Map<String, Date> endOfOneMentorshipProgram = new HashMap<>();
         endOfOneMentorshipProgram.put("program4", new GregorianCalendar(2016, Calendar.JULY, 1).getTime());
-        UserMentee mentee3 = new UserMentee("mentee3","mentee3LastName","email@3",Level.L1, Skill.Java, null, endOfOneMentorshipProgram);
-        UserMentee mentee4 = new UserMentee("mentee4","mentee4LastName","email@4",Level.L2, Skill.Net, mentor, endOfMentorshipProgram);
+        UserMentee mentee3 = new UserMentee("mentee3","mentee3LastName","email@3",Level.L1, Skill.Java, null, endOfOneMentorshipProgram,"123");
+        UserMentee mentee4 = new UserMentee("mentee4","mentee4LastName","email@4",Level.L2, Skill.Net, mentor, endOfMentorshipProgram,"123");
 
         MentorshipGroup mentorshipGroup = new MentorshipGroup("group1",Arrays.asList(mentee1,mentee2));
 
@@ -159,4 +161,16 @@ public class RestController {
         userService.addUser(mentee3);
     }
 
+
+    @Autowired
+    DataSource dataSource;
+
+    @RequestMapping(value = "/testDataSource", method = RequestMethod.GET)
+    @ResponseBody
+    public void testDataSource() throws Exception{
+        ResultSet result = dataSource.getConnection().createStatement().executeQuery("SELECT * FROM user");
+        System.out.println(result.next());
+        System.out.println(result.next());
+
+    }
 }

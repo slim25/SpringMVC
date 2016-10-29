@@ -3,8 +3,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html >
+<html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:th="http://www.thymeleaf.org"
+          xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+          xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
   <head>
+    <meta charset="utf-8" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Mentorship program | Spring MVC </title>
 
@@ -17,6 +21,14 @@
 
   <body >
 <div class="container" style="margin-left:2%,margin-right:2%">
+    <!-- LogOUT AREA -->
+        <div class="row">
+           <h1 th:inline="text">Hello [[${userName}]]!</h1>
+           <form action="/logout" method="post">
+               <input type="submit" value="Sign Out"/>
+           </form>
+        </div>
+
     <!-- Search AREA -->
     <div class="row">
         <form action="searchPage" method="POST">
@@ -57,6 +69,9 @@
             			<div>
             				<p>Email:${mentor.email}</p>
             			</div>
+            			<div>
+                            <p>Role: ${mentor.role}</p>
+                        </div>
             			<c:if test="${mentor.birthday != null}">
             				<div>
             					<p>
@@ -122,6 +137,9 @@
                             <div>
                                 <p>Email:${mentee.email}</p>
                             </div>
+                            <div>
+                                <p>Role: ${mentee.role}</p>
+                            </div>
                             <c:if test="${mentee.birthday != null}">
                                 <div>
                                     <p>
@@ -176,24 +194,24 @@
                 			<tr>
                 				<td><b>Name</b></td>
                 				<td><input type="text" name="name" /></td>
-
                 			</tr>
 
                 			<tr>
                                 <td><b>Last Name</b></td>
                                 <td><input type="text" name="lastName" /></td>
-
                             </tr>
 
                 			<tr>
                 				<td><b>Email</b></td>
                 				<td><input type="text" name="email" /></td>
-
                 			</tr>
+                			<tr>
+                                <td><b>Password</b></td>
+                                <td><input type="password" name="password" /></td>
+                            </tr>
                 			<tr>
                 				<td><b>Birthday</b></td>
                 				<td><input type="date" name="birthday" /></td>
-
                 			</tr>
 
                 			<tr>

@@ -33,13 +33,14 @@ public class UserMentor extends User implements Serializable{
 
     public UserMentor(){}
 
-    public UserMentor(String name, String lastName, String email, Level level, Skill primarySkill) {
+    public UserMentor(String name, String lastName, String email, Level level, Skill primarySkill, String password) {
         this.setName(name);
         this.setLastName(lastName);
         this.setEmail(email);
         this.setLevel(level);
         this.setPrimarySkill(primarySkill);
         this.setMentor(true);
+        this.setPassword(password);
     }
 
 
